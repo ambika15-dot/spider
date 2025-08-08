@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Funny Human Verification</title>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f5f7fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        padding: 25px;
+        max-width: 650px;
+        width: 100%;
+        text-align: center;
+    }
+    h1, h2 {
+        margin: 0 0 15px;
+        color: #333;
+    }
+    .instructions {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .grid img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: 0.3s;
+    }
+    .grid img.selected {
+        border-color: #4cafef;
+        box-shadow: 0 0 10px #4cafef;
+    }
+    button {
+        padding: 10px 18px;
+        border: none;
+        background: #4cafef;
+        color: white;
+        font-size: 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background: #3b8fd4;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Step 1 -->
+    <section id="page1">
+        <h2>Step 1: Pizza Hunt</h2>
+        <p class="instructions">Select all images containing pizza</p>
+        <div class="grid">
+            <img src="https://images.unsplash.com/photo-1601924582971-c9d6d62f6d02?w=400" alt="Pizza">
+            <img src="https://images.unsplash.com/photo-1598133894008-73c69edab0b3?w=400" alt="Cat">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Salad">
+        </div>
+        <button onclick="goToPage(2)">Next</button>
+    </section>
+
+    <!-- Step 2 -->
+    <section id="page2" class="hidden">
+        <h2>Step 2: Penguin Patrol</h2>
+        <p class="instructions">Select all penguins wearing hats</p>
+        <div class="grid">
+            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400" alt="Penguin Hat">
+            <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=400" alt="Penguin No Hat">
+            <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400" alt="Dog">
+        </div>
+        <button onclick="goToPage(3)">Next</button>
+    </section>
+
+    <!-- Step 3 -->
+    <section id="page3" class="hidden">
+        <h2>Step 3: Cat Surveillance</h2>
+        <p class="instructions">Select all cats plotting world domination</p>
+        <div class="grid">
+            <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400" alt="Cat 1">
+            <img src="https://images.unsplash.com/photo-1598133894008-73c69edab0b3?w=400" alt="Cat 2">
+            <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400" alt="Dog">
+        </div>
+        <button onclick="goToPage(4)">Next</button>
+    </section>
+
+    <!-- Step 4 -->
+    <section id="page4" class="hidden">
+        <h2>Step 4: Banana Check</h2>
+        <p class="instructions">Select all bananas hiding in plain sight</p>
+        <div class="grid">
+            <img src="https://images.unsplash.com/photo-1574226516831-e1dff420e12e?w=400" alt="Banana">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400" alt="Cake">
+            <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400" alt="Burger">
+        </div>
+        <button onclick="goToPage(5)">Next</button>
+    </section>
+
+    <!-- Step 5 -->
+    <section id="page5" class="hidden">
+        <h2>Step 5: Final Scan</h2>
+        <p class="instructions">We are now scanning your brainwaves...</p>
+        <script>
+            setTimeout(()=>goToPage(6), 2500);
+        </script>
+    </section>
+
+    <!-- Final Result -->
+    <section id="page6" class="hidden">
+        <h1>✅ Verification Complete</h1>
+        <p>You are <strong>92% Human</strong>.<br>The other 8% is pure chaos.</p>
+        <button onclick="goToPage(1)">Try Again</button>
+    </section>
+
+</div>
+
+<script>
+document.querySelectorAll('.grid img').forEach(img=>{
+    img.addEventListener('click', ()=>{
+        img.classList.toggle('selected');
+    });
+});
+function goToPage(n){
+    document.querySelectorAll('section').forEach(sec=>sec.classList.add('hidden'));
+    document.getElementById('page'+n).classList.remove('hidden');
+}
+</script>
+</body>
+</html>
