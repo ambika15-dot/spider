@@ -1,3 +1,6 @@
+<img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
+
+
 [I'M NOT A ROBOT] 
 Basic Details
 Team Name: [SPIDER]
@@ -21,53 +24,32 @@ For Software:
 [cloud AI, chatgpt, vs code, git]
 For Hardware:
 
-[List main components]
-[List specifications]
-[List tools required]
+[html,css,javascript]
+[fake captcha with fun and random challenges]
+[vscode,git,cloud ai,chat gpt]
 Implementation
 For Software:
-
-Installation
-[commands]
-
-Run
-[commands]
 
 Project Documentation
 For Software:
 
 Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name) Add caption explaining what this shows
+![Screenshot1]("https://drive.google.com/file/d/14VAcjUQMRvqLtVHG5dyfjh8SfIavEnK5/view?usp=sharing")
 
-![Screenshot2](Add screenshot 2 here with proper name) Add caption explaining what this shows
+![Screenshot2]("https://drive.google.com/file/d/1bXveZ6I-_BpY3lcYSmDUjBX36pqhjrOr/view?usp=sharing")
 
-![Screenshot3](Add screenshot 3 here with proper name) Add caption explaining what this shows
+![Screenshot3](" https://drive.google.com/file/d/1zI5m4HNYBleUZNLigyDtcadlTzJY4Y7U/view?usp=sharing") 
 
 Diagrams
-![Workflow](Add your workflow/architecture diagram here) Add caption explaining your workflow
+![Workflow](The workflow of the “I’m Not a Robot” project starts when the user clicks the checkbox. Instead of instant verification, the system presents random funny challenges (like picking images, dodging animations, or answering silly questions). Once the user completes the challenge, the system “verifies” them — purely for fun, not security.) Add caption explaining your work
 
-For Hardware:
 
-Schematic & Circuit
-![Circuit](Add your circuit diagram here) Add caption explaining connections
-
-![Schematic](Add your schematic diagram here) Add caption explaining the schematic
-
-Build Photos
-![Components](.images/Capture0.png)
-
-![Build](Add photos of build process here) Explain the build steps
-
-![Final](Add photo of final product here) Explain the final build
-
-Project Demo
-Video
-[Add your demo video link here] Explain what the video demonstrates
-
-Additional Demos
-[Add any extra demo materials/links]
 
 Team Contributions
-[Name 1]: [Specific contributions]
-[Name 2]: [Specific contributions]
-[Name 3]: [Specific contributions]
+[AMBIKA RADHAKRISHNAN]: [Developed the webpage using html,css, added animations and created the funny verification challenges]
+[DHAYA DILEEP]: [Designed the images,added sound effects,tested the project,and prepared the documentation]
+
+Made with ❤️ at TinkerHub Useless Projects 
+
+![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
+![Static Badge](https://img.shields.io/badge/UselessProjects--25-25?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
