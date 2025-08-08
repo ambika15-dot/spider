@@ -1,135 +1,478 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>I'm Not a Robot - Totally Legit Verification</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-.container {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 650px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
-h1, h2 {
-  color: #333;
-  margin-top: 0;
-}
-.instructions {
-  color: #555;
-  font-size: 15px;
-  margin-bottom: 20px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.grid img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 3px solid transparent;
-  cursor: pointer;
-  transition: border 0.2s;
-}
-.grid img.selected {
-  border-color: #4CAF50;
-}
-button {
-  padding: 10px 16px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  font-size: 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-button:hover {
-  background: #45a049;
-}
-.hidden {
-  display: none;
-}
-.center {
-  text-align: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'M NOT A ROBOT - Advanced Human Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .image-option {
+            aspect-ratio: 1;
+            border: 3px solid #bdc3c7;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-option:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .image-option.selected {
+            border-color: #2ecc71;
+            background: #d5f4e6;
+            transform: scale(0.95);
+        }
+
+        .image-option.wrong {
+            border-color: #e74c3c;
+            background: #ffeaea;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            transform: scale(1.5);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success-msg {
+            color: #2ecc71;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .difficulty-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .timer {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #f39c12;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
+        <div class="difficulty-indicator" id="difficulty">EASY</div>
+        <div class="timer" id="timer">Time: 0s</div>
+        
+        <!-- Page 1: Initial Checkbox -->
+        <div class="page active" id="page1">
+            <h1>🤖 Advanced Human Verification System</h1>
+            <p>Welcome to our state-of-the-art anti-robot detection system!</p>
+            <div class="checkbox-container">
+                <input type="checkbox" class="checkbox" id="notRobotCheck">
+                <label for="notRobotCheck">I'm not a robot</label>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 10%"></div>
+            </div>
+            <button class="btn" onclick="nextPage()" id="continueBtn" disabled>Continue</button>
+        </div>
 
-  <!-- Page 1 -->
-  <section id="page1">
-    <h2>Human Verification Step 1</h2>
-    <p class="instructions">Select all images with pizza</p>
-    <div class="grid">
-      <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=400" alt="Pizza">
-      <img src="https://images.unsplash.com/photo-1601924582971-c9d6d62f6d02?w=400" alt="Pizza">
-      <img src="https://images.unsplash.com/photo-1585238342028-966d538d81b4?w=400" alt="Pizza">
-      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=400" alt="Burger">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Salad">
-      <img src="https://images.unsplash.com/photo-1613145993655-3432e2abdc2b?w=400" alt="Cat">
+        <!-- Page 2: Traffic Lights -->
+        <div class="page" id="page2">
+            <h2>Select all squares with traffic lights</h2>
+            <div class="grid" id="trafficGrid">
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🚦</div>
+                <div class="image-option" data-correct="false">🏠</div>
+                <div class="image-option" data-correct="true">🚥</div>
+                <div class="image-option" data-correct="false">🌳</div>
+                <div class="image-option" data-correct="false">👨‍💼</div>
+                <div class="image-option" data-correct="true">🚦</div>
+                <div class="image-option" data-correct="false">🛣️</div>
+                <div class="image-option" data-correct="false">🚙</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 25%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('traffic')" id="checkTrafficBtn">Verify</button>
+            <div id="trafficError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 3: Crosswalks -->
+        <div class="page" id="page3">
+            <h2>Select all squares with crosswalks</h2>
+            <div class="grid" id="crosswalkGrid">
+                <div class="image-option" data-correct="false">🏪</div>
+                <div class="image-option" data-correct="true">🚶‍♂️</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🚶‍♀️</div>
+                <div class="image-option" data-correct="false">🏢</div>
+                <div class="image-option" data-correct="false">🌆</div>
+                <div class="image-option" data-correct="true">🚶</div>
+                <div class="image-option" data-correct="false">🚌</div>
+                <div class="image-option" data-correct="false">⛽</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('crosswalk')" id="checkCrosswalkBtn">Verify</button>
+            <div id="crosswalkError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 4: Bicycles -->
+        <div class="page" id="page4">
+            <h2>Select all squares with bicycles</h2>
+            <div class="grid" id="bicycleGrid">
+                <div class="image-option" data-correct="true">🚲</div>
+                <div class="image-option" data-correct="false">🏍️</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="false">🛴</div>
+                <div class="image-option" data-correct="true">🚴‍♂️</div>
+                <div class="image-option" data-correct="false">🛵</div>
+                <div class="image-option" data-correct="true">🚴‍♀️</div>
+                <div class="image-option" data-correct="false">🏃‍♂️</div>
+                <div class="image-option" data-correct="true">🚲</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 60%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('bicycle')" id="checkBicycleBtn">Verify</button>
+            <div id="bicycleError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 5: Final Challenge -->
+        <div class="page" id="page5">
+            <h2>FINAL CHALLENGE: Select the human emotions</h2>
+            <div class="grid" id="emotionGrid">
+                <div class="image-option" data-correct="true">😊</div>
+                <div class="image-option" data-correct="false">🤖</div>
+                <div class="image-option" data-correct="true">😢</div>
+                <div class="image-option" data-correct="false">💻</div>
+                <div class="image-option" data-correct="true">😡</div>
+                <div class="image-option" data-correct="false">⚡</div>
+                <div class="image-option" data-correct="true">😍</div>
+                <div class="image-option" data-correct="false">🔧</div>
+                <div class="image-option" data-correct="true">😰</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('emotion')" id="checkEmotionBtn">Final Verification</button>
+            <div id="emotionError" class="error-msg"></div>
+        </div>
+
+        <!-- Success Page -->
+        <div class="page" id="success">
+            <h1>🎉 Congratulations!</h1>
+            <p style="font-size: 18px; margin: 20px 0;">You have successfully proven that you are definitely, absolutely, 100% not a robot!</p>
+            <div style="font-size: 4em; margin: 20px 0;">✅</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 100%"></div>
+            </div>
+            <p style="color: #27ae60; font-weight: bold;">Human status: VERIFIED</p>
+            <p style="margin-top: 20px;">Time taken: <span id="finalTime"></span> seconds</p>
+            <button class="btn" onclick="restart()">Start Over (For Fun)</button>
+        </div>
     </div>
-    <button onclick="goToPage(2)">Next</button>
-  </section>
 
-  <!-- Page 2 -->
-  <section id="page2" class="hidden">
-    <h2>Human Verification Step 2</h2>
-    <p class="instructions">Select all penguins</p>
-    <div class="grid">
-      <img src="https://images.unsplash.com/photo-1608652953482-c57e041dbc99?w=400" alt="Penguin">
-      <img src="https://images.unsplash.com/photo-1510081887155-cb03732f5ddf?w=400" alt="Penguin">
-      <img src="https://images.unsplash.com/photo-1604467794566-04f4f8c8e06e?w=400" alt="Penguin">
-      <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400" alt="Not Penguin">
-      <img src="https://images.unsplash.com/photo-1581090700227-1e8f44a08af6?w=400" alt="Not Penguin">
-      <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=400" alt="Not Penguin">
-    </div>
-    <button onclick="goToPage(3)">Next</button>
-  </section>
-
-  <!-- Page 3 -->
-  <section id="page3" class="hidden center">
-    <h1>🤔 Processing...</h1>
-    <p>Scanning your human vibes through the screen...</p>
     <script>
-      setTimeout(()=>goToPage(4), 2500);
+        let currentPage = 1;
+        let startTime = Date.now();
+        let timerInterval;
+        let attempts = 0;
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('timer').textContent = `Time: ${elapsed}s`;
+            }, 1000);
+        }
+
+        function updateDifficulty() {
+            const difficulties = ['EASY', 'MEDIUM', 'HARD', 'EXPERT', 'IMPOSSIBLE'];
+            document.getElementById('difficulty').textContent = difficulties[currentPage - 1] || 'GODLIKE';
+        }
+
+        // Initialize
+        document.getElementById('notRobotCheck').addEventListener('change', function() {
+            document.getElementById('continueBtn').disabled = !this.checked;
+        });
+
+        function nextPage() {
+            if (currentPage === 1) {
+                startTimer();
+            }
+            
+            document.querySelector('.page.active').classList.remove('active');
+            currentPage++;
+            updateDifficulty();
+            
+            if (currentPage <= 5) {
+                document.getElementById(`page${currentPage}`).classList.add('active');
+            }
+        }
+
+        function checkAnswers(type) {
+            const grid = document.getElementById(`${type}Grid`);
+            const options = grid.querySelectorAll('.image-option');
+            const errorDiv = document.getElementById(`${type}Error`);
+            let allCorrect = true;
+            let hasSelections = false;
+
+            options.forEach(option => {
+                option.classList.remove('wrong');
+                const isSelected = option.classList.contains('selected');
+                const shouldBeSelected = option.dataset.correct === 'true';
+                
+                if (isSelected) hasSelections = true;
+                
+                if (isSelected !== shouldBeSelected) {
+                    allCorrect = false;
+                    if (isSelected) {
+                        option.classList.add('wrong');
+                    }
+                }
+            });
+
+            if (!hasSelections) {
+                errorDiv.textContent = 'Please select at least one square!';
+                return;
+            }
+
+            if (!allCorrect) {
+                attempts++;
+                errorDiv.textContent = `Incorrect selection. Try again! (Attempt ${attempts})`;
+                
+                // Add some humor based on attempts
+                if (attempts > 3) {
+                    errorDiv.textContent += ' Are you sure you\'re not a robot? 🤔';
+                }
+                if (attempts > 5) {
+                    errorDiv.textContent = 'This is taking suspiciously long... 🤖';
+                }
+                
+                return;
+            }
+
+            errorDiv.textContent = '';
+            
+            // Success for this page
+            const button = document.getElementById(`check${type.charAt(0).toUpperCase() + type.slice(1)}Btn`);
+            button.innerHTML = 'Verified ✅';
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (currentPage < 5) {
+                    nextPage();
+                } else {
+                    // Final success
+                    clearInterval(timerInterval);
+                    const finalTime = Math.floor((Date.now() - startTime) / 1000);
+                    document.getElementById('finalTime').textContent = finalTime;
+                    document.querySelector('.page.active').classList.remove('active');
+                    document.getElementById('success').classList.add('active');
+                }
+            }, 1000);
+        }
+
+        function restart() {
+            currentPage = 1;
+            attempts = 0;
+            startTime = Date.now();
+            clearInterval(timerInterval);
+            
+            // Reset all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('page1').classList.add('active');
+            
+            // Reset checkbox
+            document.getElementById('notRobotCheck').checked = false;
+            document.getElementById('continueBtn').disabled = true;
+            
+            // Reset all grids
+            document.querySelectorAll('.image-option').forEach(option => {
+                option.classList.remove('selected', 'wrong');
+            });
+            
+            // Reset buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                if (btn.textContent.includes('✅')) {
+                    btn.disabled = false;
+                    btn.textContent = btn.textContent.replace(' ✅', '');
+                }
+            });
+            
+            // Reset error messages
+            document.querySelectorAll('.error-msg').forEach(msg => msg.textContent = '');
+            
+            updateDifficulty();
+        }
+
+        // Add click handlers for image options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('image-option')) {
+                e.target.classList.toggle('selected');
+            }
+        });
+
+        // Initialize
+        updateDifficulty();
     </script>
-  </section>
-
-  <!-- Page 4 -->
-  <section id="page4" class="hidden center">
-    <h1>✅ Verification Complete</h1>
-    <p>You are <strong>97% Human</strong>.<br>The other 3% is pure internet addict.</p>
-    <button onclick="goToPage(1)">Try Again</button>
-  </section>
-
-</div>
-
-<script>
-document.querySelectorAll('.grid img').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    img.classList.toggle('selected');
-  });
-});
-function goToPage(n){
-  document.querySelectorAll('section').forEach(sec=>sec.classList.add('hidden'));
-  document.getElementById('page'+n).classList.remove('hidden');
-}
-</script>
 </body>
 </html>

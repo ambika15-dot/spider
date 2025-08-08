@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'M NOT A ROBOT - Ultra Advanced Human Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            max-width: 650px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #3498db; }
+            to { text-shadow: 0 0 20px #3498db, 0 0 30px #3498db; }
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            height: 100%;
+            transition: width 1s ease;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, .2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, .2) 50%,
+                rgba(255, 255, 255, .2) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 50px 50px;
+            animation: move 2s linear infinite;
+        }
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .image-option {
+            aspect-ratio: 1;
+            border: 4px solid #bdc3c7;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-option:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .image-option.selected {
+            border-color: #2ecc71;
+            background: linear-gradient(135deg, #d5f4e6, #a8e6cf);
+            transform: scale(0.95);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.4);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        .image-option.wrong {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, #ffeaea, #ffcccb);
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 15px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+            font-size: 20px;
+        }
+
+        .checkbox {
+            width: 25px;
+            height: 25px;
+            margin-right: 15px;
+            transform: scale(1.5);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            animation: errorPulse 0.5s ease-in-out;
+        }
+
+        @keyframes errorPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .difficulty-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .timer {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, #f39c12, #d68910);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .sound-toggle {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .rainbow-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s ease-in-out infinite;
+        }
+
+        @keyframes rainbow {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+        }
+
+        .fun-fact {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            text-align: left;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear infinite;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotateZ(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="difficulty-indicator" id="difficulty">TUTORIAL</div>
+        <div class="timer" id="timer">Time: 0s</div>
+        <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+        
+        <!-- Page 1: Initial Checkbox -->
+        <div class="page active" id="page1">
+            <h1 class="rainbow-text">🤖 Ultra Advanced Human Verification System</h1>
+            <p style="margin: 20px 0;">Welcome to our cutting-edge, military-grade, AI-powered anti-robot detection system!</p>
+            <div class="fun-fact">
+                <strong>Fun Fact:</strong> This captcha has a 99.99% success rate in detecting robots (citation needed).
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" class="checkbox" id="notRobotCheck">
+                <label for="notRobotCheck">I'm not a robot (Level 1)</label>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 8%"></div>
+            </div>
+            <button class="btn" onclick="nextPage()" id="continueBtn" disabled>Begin Verification</button>
+        </div>
+
+        <!-- Page 2: Traffic Lights -->
+        <div class="page" id="page2">
+            <h2>Level 2: Select all squares with traffic lights</h2>
+            <div class="fun-fact">
+                <strong>Robot Tip:</strong> Traffic lights control the flow of vehicular and pedestrian traffic.
+            </div>
+            <div class="grid" id="trafficGrid">
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🚦</div>
+                <div class="image-option" data-correct="false">🏠</div>
+                <div class="image-option" data-correct="true">🚥</div>
+                <div class="image-option" data-correct="false">🌳</div>
+                <div class="image-option" data-correct="false">👨‍💼</div>
+                <div class="image-option" data-correct="true">🚦</div>
+                <div class="image-option" data-correct="false">🛣️</div>
+                <div class="image-option" data-correct="false">🚙</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 16%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('traffic')" id="checkTrafficBtn">Verify Selection</button>
+            <div id="trafficError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 3: Crosswalks -->
+        <div class="page" id="page3">
+            <h2>Level 3: Select all squares with crosswalks/pedestrians</h2>
+            <div class="fun-fact">
+                <strong>Human Knowledge:</strong> Pedestrians use crosswalks to safely cross roads.
+            </div>
+            <div class="grid" id="crosswalkGrid">
+                <div class="image-option" data-correct="false">🏪</div>
+                <div class="image-option" data-correct="true">🚶‍♂️</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🚶‍♀️</div>
+                <div class="image-option" data-correct="false">🏢</div>
+                <div class="image-option" data-correct="false">🌆</div>
+                <div class="image-option" data-correct="true">🚶</div>
+                <div class="image-option" data-correct="false">🚌</div>
+                <div class="image-option" data-correct="false">⛽</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 24%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('crosswalk')" id="checkCrosswalkBtn">Verify Selection</button>
+            <div id="crosswalkError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 4: Bicycles -->
+        <div class="page" id="page4">
+            <h2>Level 4: Select all squares with bicycles</h2>
+            <div class="fun-fact">
+                <strong>Bicycle Fact:</strong> Bicycles are two-wheeled vehicles powered by human pedaling.
+            </div>
+            <div class="grid" id="bicycleGrid">
+                <div class="image-option" data-correct="true">🚲</div>
+                <div class="image-option" data-correct="false">🏍️</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="false">🛴</div>
+                <div class="image-option" data-correct="true">🚴‍♂️</div>
+                <div class="image-option" data-correct="false">🛵</div>
+                <div class="image-option" data-correct="true">🚴‍♀️</div>
+                <div class="image-option" data-correct="false">🏃‍♂️</div>
+                <div class="image-option" data-correct="true">🚲</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 32%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('bicycle')" id="checkBicycleBtn">Verify Selection</button>
+            <div id="bicycleError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 5: Animals -->
+        <div class="page" id="page5">
+            <h2>Level 5: Select all squares with animals</h2>
+            <div class="fun-fact">
+                <strong>Biology 101:</strong> Animals are living organisms that are not plants or machines.
+            </div>
+            <div class="grid" id="animalGrid">
+                <div class="image-option" data-correct="true">🐶</div>
+                <div class="image-option" data-correct="false">🌱</div>
+                <div class="image-option" data-correct="true">🐱</div>
+                <div class="image-option" data-correct="false">🏠</div>
+                <div class="image-option" data-correct="true">🐸</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🦋</div>
+                <div class="image-option" data-correct="false">💻</div>
+                <div class="image-option" data-correct="true">🐧</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('animal')" id="checkAnimalBtn">Verify Selection</button>
+            <div id="animalError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 6: Food -->
+        <div class="page" id="page6">
+            <h2>Level 6: Select all squares with food items</h2>
+            <div class="fun-fact">
+                <strong>Nutrition Alert:</strong> Food provides energy for biological organisms (not robots).
+            </div>
+            <div class="grid" id="foodGrid">
+                <div class="image-option" data-correct="true">🍕</div>
+                <div class="image-option" data-correct="false">⚡</div>
+                <div class="image-option" data-correct="true">🍔</div>
+                <div class="image-option" data-correct="false">🔧</div>
+                <div class="image-option" data-correct="true">🍎</div>
+                <div class="image-option" data-correct="false">🔋</div>
+                <div class="image-option" data-correct="true">🥕</div>
+                <div class="image-option" data-correct="false">⚙️</div>
+                <div class="image-option" data-correct="true">🍰</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 48%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('food')" id="checkFoodBtn">Verify Selection</button>
+            <div id="foodError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 7: Colors -->
+        <div class="page" id="page7">
+            <h2>Level 7: Select all squares with RED objects</h2>
+            <div class="fun-fact">
+                <strong>Color Theory:</strong> Red is a primary color visible to humans.
+            </div>
+            <div class="grid" id="colorGrid">
+                <div class="image-option" data-correct="true">🍎</div>
+                <div class="image-option" data-correct="false">🍌</div>
+                <div class="image-option" data-correct="true">🌹</div>
+                <div class="image-option" data-correct="false">🌿</div>
+                <div class="image-option" data-correct="true">❤️</div>
+                <div class="image-option" data-correct="false">💙</div>
+                <div class="image-option" data-correct="true">🍓</div>
+                <div class="image-option" data-correct="false">🍇</div>
+                <div class="image-option" data-correct="false">🟢</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 56%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('color')" id="checkColorBtn">Verify Selection</button>
+            <div id="colorError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 8: Math Challenge -->
+        <div class="page" id="page8">
+            <h2>Level 8: Select squares that equal 10</h2>
+            <div class="fun-fact">
+                <strong>Math Alert:</strong> Basic arithmetic should be easy for both humans and robots!
+            </div>
+            <div class="grid" id="mathGrid">
+                <div class="image-option" data-correct="false" style="font-size: 1.5em;">2+7</div>
+                <div class="image-option" data-correct="true" style="font-size: 1.5em;">5+5</div>
+                <div class="image-option" data-correct="false" style="font-size: 1.5em;">3+6</div>
+                <div class="image-option" data-correct="true" style="font-size: 1.5em;">8+2</div>
+                <div class="image-option" data-correct="false" style="font-size: 1.5em;">4+5</div>
+                <div class="image-option" data-correct="true" style="font-size: 1.5em;">10</div>
+                <div class="image-option" data-correct="false" style="font-size: 1.5em;">1+8</div>
+                <div class="image-option" data-correct="true" style="font-size: 1.5em;">7+3</div>
+                <div class="image-option" data-correct="false" style="font-size: 1.5em;">6+3</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 64%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('math')" id="checkMathBtn">Verify Selection</button>
+            <div id="mathError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 9: Emotions -->
+        <div class="page" id="page9">
+            <h2>Level 9: Select all HAPPY emotions</h2>
+            <div class="fun-fact">
+                <strong>Psychology 101:</strong> Emotions are complex human responses.
+            </div>
+            <div class="grid" id="emotionGrid">
+                <div class="image-option" data-correct="true">😊</div>
+                <div class="image-option" data-correct="false">😢</div>
+                <div class="image-option" data-correct="true">😄</div>
+                <div class="image-option" data-correct="false">😡</div>
+                <div class="image-option" data-correct="true">🥳</div>
+                <div class="image-option" data-correct="false">😰</div>
+                <div class="image-option" data-correct="true">😍</div>
+                <div class="image-option" data-correct="false">😴</div>
+                <div class="image-option" data-correct="true">🤩</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 72%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('emotion')" id="checkEmotionBtn">Verify Selection</button>
+            <div id="emotionError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 10: Nature -->
+        <div class="page" id="page10">
+            <h2>Level 10: Select all squares with plants/nature</h2>
+            <div class="fun-fact">
+                <strong>Nature Facts:</strong> Plants are living organisms that photosynthesize.
+            </div>
+            <div class="grid" id="natureGrid">
+                <div class="image-option" data-correct="true">🌳</div>
+                <div class="image-option" data-correct="false">🏢</div>
+                <div class="image-option" data-correct="true">🌸</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">🌿</div>
+                <div class="image-option" data-correct="false">💻</div>
+                <div class="image-option" data-correct="true">🌺</div>
+                <div class="image-option" data-correct="false">🔧</div>
+                <div class="image-option" data-correct="true">🌵</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('nature')" id="checkNatureBtn">Verify Selection</button>
+            <div id="natureError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 11: Weather -->
+        <div class="page" id="page11">
+            <h2>Level 11: Select all squares with weather phenomena</h2>
+            <div class="fun-fact">
+                <strong>Meteorology:</strong> Weather patterns are natural atmospheric phenomena.
+            </div>
+            <div class="grid" id="weatherGrid">
+                <div class="image-option" data-correct="true">☀️</div>
+                <div class="image-option" data-correct="false">🏠</div>
+                <div class="image-option" data-correct="true">🌧️</div>
+                <div class="image-option" data-correct="false">🚗</div>
+                <div class="image-option" data-correct="true">❄️</div>
+                <div class="image-option" data-correct="false">💻</div>
+                <div class="image-option" data-correct="true">⚡</div>
+                <div class="image-option" data-correct="false">🔧</div>
+                <div class="image-option" data-correct="true">🌈</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 88%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('weather')" id="checkWeatherBtn">Verify Selection</button>
+            <div id="weatherError" class="error-msg"></div>
+        </div>
+
+        <!-- Page 12: Final Challenge -->
+        <div class="page" id="page12">
+            <h2>🎯 FINAL CHALLENGE: Select items that prove you're human</h2>
+            <div class="fun-fact">
+                <strong>Ultimate Test:</strong> Only a true human would understand human creativity and emotion.
+            </div>
+            <div class="grid" id="finalGrid">
+                <div class="image-option" data-correct="true">💝</div>
+                <div class="image-option" data-correct="false">🤖</div>
+                <div class="image-option" data-correct="true">🎨</div>
+                <div class="image-option" data-correct="false">💻</div>
+                <div class="image-option" data-correct="true">🎵</div>
+                <div class="image-option" data-correct="false">⚙️</div>
+                <div class="image-option" data-correct="true">💭</div>
+                <div class="image-option" data-correct="false">🔋</div>
+                <div class="image-option" data-correct="true">🤝</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 96%"></div>
+            </div>
+            <button class="btn" onclick="checkAnswers('final')" id="checkFinalBtn">FINAL VERIFICATION</button>
+            <div id="finalError" class="error-msg"></div>
+        </div>
+
+        <!-- Success Page -->
+        <div class="page" id="success">
+            <h1 class="rainbow-text">🎉 CONGRATULATIONS! 🎉</h1>
+            <p style="font-size: 20px; margin: 20px 0;">You have successfully completed our ultra-advanced human verification system!</p>
+            <div style="font-size: 6em; margin: 20px 0; animation: bounce 2s infinite;">✅</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 100%"></div>
+            </div>
+            <p style="color: #27ae60; font-weight: bold; font-size: 18px;">Human Status: VERIFIED ✓</p>
+            <p style="margin-top: 15px; font-size: 16px;">Total Time: <span id="finalTime"></span> seconds</p>
+            <p style="margin-top: 10px; font-size: 16px;">Failed Attempts: <span id="totalAttempts"></span></p>
+            <button class="btn" onclick="restart()" style="margin-top: 20px;">Start Over (For Fun)</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let startTime = Date.now();
+        let timerInterval;
+        let attempts = 0;
+        let soundEnabled = true;
+        let totalPages = 12;
+
+        const difficulties = ['TUTORIAL', 'EASY', 'EASY+', 'MEDIUM', 'MEDIUM+', 'HARD', 'HARD+', 'EXPERT', 'EXPERT+', 'NIGHTMARE', 'IMPOSSIBLE', 'GODLIKE'];
+        
+        // Sound functions
+        function playSound(type) {
+            if (!soundEnabled) return;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            switch(type) {
+                case 'success':
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    break;
+                case 'error':
+                    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+                    break;
+                case 'click':
+                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    break;
+                case 'complete':
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
+                    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.3);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    break;
+            }
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggle');
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+            playSound('click');
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'][Math.floor(Math.random() * 6)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 6000);
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('timer').textContent = `Time: ${elapsed}s`;
+            }, 1000);
+        }
+
+        function updateDifficulty() {
+            document.getElementById('difficulty').textContent = difficulties[currentPage - 1] || 'BEYOND GODLIKE';
+        }
+
+        // Initialize
+        document.getElementById('notRobotCheck').addEventListener('change', function() {
+            document.getElementById('continueBtn').disabled = !this.checked;
+            if (this.checked) {
+                playSound('click');
+            }
+        });
+
+        function nextPage() {
+            if (currentPage === 1) {
+                startTimer();
+            }
+            
+            playSound('success');
+            document.querySelector('.page.active').classList.remove('active');
+            currentPage++;
+            updateDifficulty();
+            
+            if (currentPage <= totalPages) {
+                document.getElementById(`page${currentPage}`).classList.add('active');
+            }
+        }
+
+        function checkAnswers(type) {
+            const grid = document.getElementById(`${type}Grid`);
+            const options = grid.querySelectorAll('.image-option');
+            const errorDiv = document.getElementById(`${type}Error`);
+            let allCorrect = true;
+            let hasSelections = false;
+
+            // Clear previous wrong states
+            options.forEach(option => {
+                option.classList.remove('wrong');
+            });
+
+            // Check each option
+            options.forEach(option => {
+                const isSelected = option.classList.contains('selected');
+                const shouldBeSelected = option.dataset.correct === 'true';
+                
+                if (isSelected) hasSelections = true;
+                
+                if (isSelected !== shouldBeSelected) {
+                    allCorrect = false;
+                    if (isSelected) {
+                        option.classList.add('wrong');
+                    }
+                }
+            });
+
+            if (!hasSelections) {
+                errorDiv.textContent = 'Please select at least one square!';
+                playSound('error');
+                return;
+            }
+
+            if (!allCorrect) {
+                attempts++;
+                playSound('error');
+                
+                const messages = [
+                    'Incorrect selection. Try again!',
+                    'Not quite right. Give it another shot!',
+                    'Hmm, are you sure you\'re human? 🤔',
+                    'This is taking suspiciously long... 🤖',
+                    'ROBOT DETECTED! Just kidding, try again! 😄',
+                    'Even my grandmother could solve this faster! 👵',
+                    'Are you clicking randomly? Be more careful! 🎯',
+                    'I\'m starting to doubt your humanity... 🚨'
+                ];
+                
+                const messageIndex = Math.min(attempts - 1, messages.length - 1);
+                errorDiv.textContent = messages[messageIndex];
+                
+                return;
+            }
+
+            // Success for this page
+            errorDiv.textContent = '';
+            playSound('success');
+            
+            const button = document.getElementById(`check${type.charAt(0).toUpperCase() + type.slice(1)}Btn`);
+            button.innerHTML = 'Verified ✅';
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (currentPage < totalPages) {
+                    nextPage();
+                } else {
+                    // Final success
+                    playSound('complete');
+                    createConfetti();
+                    clearInterval(timerInterval);
+                    const finalTime = Math.floor((Date.now() - startTime) / 1000);
+                    document.getElementById('finalTime').textContent = finalTime;
+                    document.getElementById('totalAttempts').textContent = attempts;
+                    document.querySelector('.page.active').classList.remove('active');
+                    document.getElementById('success').classList.add('active');
+                }
+            }, 1500);
+        }
+
+        function restart() {
+            currentPage = 1;
+            attempts = 0;
+            startTime = Date.now();
+            clearInterval(timerInterval);
+            
+            // Clear any existing confetti
+            document.querySelectorAll('.confetti').forEach(el => el.remove());
+            
+            // Reset all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('page1').classList.add('active');
+            
+            // Reset checkbox
+            document.getElementById('notRobotCheck').checked = false;
+            document.getElementById('continueBtn').disabled = true;
+            
+            // Reset all grids
+            document.querySelectorAll('.image-option').forEach(option => {
+                option.classList.remove('selected', 'wrong');
+            });
+            
+            // Reset buttons
+            const buttons = ['Traffic', 'Crosswalk', 'Bicycle', 'Animal', 'Food', 'Color', 'Math', 'Emotion', 'Nature', 'Weather', 'Final'];
+            buttons.forEach(btn => {
+                const element = document.getElementById(`check${btn}Btn`);
+                if (element && element.textContent.includes('✅')) {
+                    element.disabled = false;
+                    element.textContent = element.textContent.replace(' ✅', '');
+                }
+            });
+            
+            // Reset error messages
+            document.querySelectorAll('.error-msg').forEach(msg => msg.textContent = '');
+            
+            updateDifficulty();
+            playSound('click');
+        }
+
+        // Add click handlers for image options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('image-option')) {
+                e.target.classList.toggle('selected');
+                playSound('click');
+            }
+        });
+
+        // Initialize difficulty and sound
+        updateDifficulty();
+        
+        // Prevent right-click context menu for more authentic captcha feel
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Add some matrix-style background effect
+        function createMatrixRain() {
+            const chars = '01';
+            const matrix = document.querySelector('.matrix-bg');
+            if (matrix) {
+                setInterval(() => {
+                    const span = document.createElement('span');
+                    span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    span.style.position = 'absolute';
+                    span.style.left = Math.random() * 100 + '%';
+                    span.style.animation = 'matrix-fall 5s linear';
+                    span.style.fontSize = '12px';
+                    matrix.appendChild(span);
+                    
+                    setTimeout(() => span.remove(), 5000);
+                }, 100);
+            }
+        }
+
+        // Add matrix rain effect
+        const matrixStyle = document.createElement('style');
+        matrixStyle.textContent = `
+            @keyframes matrix-fall {
+                0% { top: -20px; opacity: 1; }
+                100% { top: 100vh; opacity: 0; }
+            }
+        `;
+        document.head.appendChild(matrixStyle);
+        
+        createMatrixRain();
+    </script>
+</body>
+</html>
